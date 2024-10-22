@@ -577,16 +577,6 @@ p.l6 <- function(pi) { -5  }
 p.l7 <- function(pi) { -5  }
 p.l8 <- function(pi) { -5  }
 
-#CATE(A = 1)
-#p.l1 <- function(pi) { pi[7] }
-#p.l2 <- function(pi) { pi[3] }
-#p.l3 <- function(pi) { pi[3] + pi[4] - pi[5] - pi[8] }
-#p.l4 <- function(pi) { pi[2] + pi[3] - pi[5] - pi[6] }
-#p.l5 <- function(pi) { -5}
-#p.l6 <- function(pi) { -5  } 
-#p.l7 <- function(pi) {-5  } 
-#p.l8 <- function(pi) { -5  }
-
 
 
 gamma.l <- function(pi) { pmax(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
@@ -604,18 +594,6 @@ p.u5 <- function(pi) { 5  }
 p.u6 <- function(pi) { 5 } 
 p.u7 <- function(pi) { 5 } 
 p.u8 <- function(pi) { 5}
-
-#CATE(A = 1)
-#p.u1 <- function(pi) { 1 - pi[5] }
-#p.u2 <- function(pi) { 1 - pi[1] }
-#p.u3 <- function(pi) { pi[2] + pi[3] + pi[7] + pi[8] }
-#p.u4 <- function(pi) { pi[3] + pi[4] + pi[6] + pi[7] }
-#p.u5 <- function(pi) { 5 }
-#p.u6 <- function(pi) { 5  } 
-#p.u7 <- function(pi) { 5 } 
-#p.u8 <- function(pi) { 5 }
-
-
 
 
 gamma.u <- function(pi) { pmin(p.u1(pi), p.u2(pi), p.u3(pi), p.u4(pi),
@@ -684,8 +662,6 @@ fct.l1 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.l1(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.l1(pi.hat) - EY)/pA)
 }
 fct.l2 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -719,8 +695,6 @@ fct.l2 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.l2(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.l2(pi.hat) - EY)/pA)
 }
 fct.l3 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -754,8 +728,6 @@ fct.l3 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.l3(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.l3(pi.hat) - EY)/pA)
 }
 
 fct.l4 <- function(data, ind){
@@ -790,8 +762,6 @@ fct.l4 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.l4(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.l4(pi.hat) - EY)/pA)
 }
 
 
@@ -827,8 +797,6 @@ fct.l5 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.l5(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.l5(pi.hat) - EY)/pA)
 }
 
 fct.l6 <- function(data, ind){
@@ -863,8 +831,6 @@ fct.l6 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.l6(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.l6(pi.hat) - EY)/pA)
 }
 
 fct.l7 <- function(data, ind){
@@ -899,8 +865,6 @@ fct.l7 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.l7(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.l7(pi.hat) - EY)/pA)
 }
 
 fct.l8 <- function(data, ind){
@@ -935,8 +899,6 @@ fct.l8 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.l8(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.l8(pi.hat) - EY)/pA)
 }
 fct.u1 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -970,8 +932,6 @@ fct.u1 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.u1(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.u1(pi.hat) - EY)/pA)
 }
 fct.u2 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1005,8 +965,6 @@ fct.u2 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.u2(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.u2(pi.hat) - EY)/pA)
 }
 fct.u3 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1040,8 +998,6 @@ fct.u3 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.u3(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.u3(pi.hat) - EY)/pA)
 }
 fct.u4 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1075,8 +1031,6 @@ fct.u4 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.u4(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.u4(pi.hat) - EY)/pA)
 }
 fct.u5 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1110,8 +1064,6 @@ fct.u5 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.u5(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.u5(pi.hat) - EY)/pA)
 }
 fct.u6 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1145,8 +1097,6 @@ fct.u6 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.u6(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.u6(pi.hat) - EY)/pA)
 }
 fct.u7 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1180,8 +1130,6 @@ fct.u7 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.u7(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.u7(pi.hat) - EY)/pA)
 }
 fct.u8 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1215,9 +1163,6 @@ fct.u8 <- function(data, ind){
   pA <- predict(fmA, newdata = l, type = "response")
   #CATE(A=0)
   return((p.u8(pi.hat) - EY)/(1-pA))
-  #CATE(A = 1)
-  #return((p.u8(pi.hat) - EY)/pA)
-  return((p.u8(pi.hat) - EY.A0*pA)/(1-pA))
 }
 set.seed(2023)
 R <- 1000
@@ -1250,20 +1195,9 @@ C <- C$root
 
 #CATE(A = 0)
 BP.bounds.CATE0 <- c((gamma.l(pi.hat)- EY)/(1-pA) - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY)/(1-pA) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
-#CATE(A = 1)
-#BP.bounds.CATE1 <- c( (-gamma.u(pi.hat) + EY)/pA - C*sd.u1.hat[arg_gamma.u(pi.hat)], (-gamma.l(pi.hat)+ EY)/pA + C*sd.l1.hat[arg_gamma.l(pi.hat)])
 
-
-
-
-
-
-#gam.lCATE1 <- gamma.l(pi.hat)
 gam.lCATE0 <- gamma.l(pi.hat)
 
-
-
-#gam.uCATE1 <- gamma.u(pi.hat)
 gam.uCATE0 <- gamma.u(pi.hat)
 
 
