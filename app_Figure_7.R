@@ -95,33 +95,15 @@ l$smsa <- as.integer(l$smsa)
 ##Uncomment upper and lower bound fcts depending on the estimand of interest
 ## lower bound functions
 #ATE
-#p.l1 <- function(pi) { pi[8] + pi[1] - 1 }
-#p.l2 <- function(pi) { pi[4] + pi[5] - 1 }
-#p.l3 <- function(pi) { -pi[6] - pi[7] }
-#p.l4 <- function(pi) { -pi[2] - pi[3] }
-#p.l5 <- function(pi) { pi[4] - pi[8] - pi[7] - pi[2] - pi[3] }
-#p.l6 <- function(pi) { pi[8] - pi[4] - pi[3] - pi[6] - pi[7] }
-#p.l7 <- function(pi) { pi[5] - pi[6] - pi[7] - pi[2] - pi[1] }
-#p.l8 <- function(pi) { pi[1] - pi[2] - pi[3] - pi[6] - pi[5] }
-#a = 0 intervention
-#p.l1 <- function(pi) { pi[7] }
-#p.l2 <- function(pi) { pi[3] }
-#p.l3 <- function(pi) { pi[3] + pi[4] - pi[5] - pi[8] }
-#p.l4 <- function(pi) { pi[2] + pi[3] - pi[5] - pi[6] }
-#p.l6 <- function(pi) { -5  } 
-#p.l5 <- function(pi) { -5}
-#p.l7 <- function(pi) {-5  } 
-#p.l8 <- function(pi) { -5  }
+p.l1 <- function(pi) { pi[8] + pi[1] - 1 }
+p.l2 <- function(pi) { pi[4] + pi[5] - 1 }
+p.l3 <- function(pi) { -pi[6] - pi[7] }
+p.l4 <- function(pi) { -pi[2] - pi[3] }
+p.l5 <- function(pi) { pi[4] - pi[8] - pi[7] - pi[2] - pi[3] }
+p.l6 <- function(pi) { pi[8] - pi[4] - pi[3] - pi[6] - pi[7] }
+p.l7 <- function(pi) { pi[5] - pi[6] - pi[7] - pi[2] - pi[1] }
+p.l8 <- function(pi) { pi[1] - pi[2] - pi[3] - pi[6] - pi[5] }
 
-#a = 1 intervention
-p.l1 <- function(pi) { pi[4] }
-p.l2 <- function(pi) { pi[8] }
-p.l3 <- function(pi) { pi[5] + pi[8] - pi[1] - pi[2] }
-p.l4 <- function(pi) { pi[7] + pi[8] - pi[2] - pi[3] }
-p.l5 <- function(pi) { -5 }
-p.l6 <- function(pi) { -5  } 
-p.l7 <- function(pi) {-5  } 
-p.l8 <- function(pi) { -5  }
 
 gamma.l <- function(pi) { pmax(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
                                p.l5(pi), p.l6(pi), p.l7(pi), p.l8(pi)) }
@@ -130,33 +112,15 @@ arg_gamma.l <- function(pi) {which.max(c(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
 
 ## upper bound functions
 #ATE
-#p.u1 <- function(pi) { 1 - pi[6] - pi[3] }
-#p.u2 <- function(pi) { 1 - pi[2] - pi[7] }
-#p.u3 <- function(pi) { pi[8] + pi[5] }
-#p.u4 <- function(pi) { pi[4] + pi[1] }
-#p.u5 <- function(pi) { -pi[2] + pi[6] + pi[5] + pi[4] + pi[1] }
-#p.u6 <- function(pi) { -pi[6] + pi[2] + pi[1] + pi[8] + pi[5] }
-#p.u7 <- function(pi) { -pi[7] + pi[8] + pi[5] + pi[4] + pi[3] }
-#p.u8 <- function(pi) { -pi[3] + pi[4] + pi[1] + pi[8] + pi[7] }
-#a = 0 intervention
-#p.u1 <- function(pi) { 1 - pi[5] }
-#p.u2 <- function(pi) { 1 - pi[1] }
-#p.u3 <- function(pi) { pi[2] + pi[3] + pi[7] + pi[8] }
-#p.u4 <- function(pi) { pi[3] + pi[4] + pi[6] + pi[7] }
-#p.u5 <- function(pi) { 5 }
-#p.u6 <- function(pi) { 5  } 
-#p.u7 <- function(pi) { 5 } 
-#p.u8 <- function(pi) { 5 }
+p.u1 <- function(pi) { 1 - pi[6] - pi[3] }
+p.u2 <- function(pi) { 1 - pi[2] - pi[7] }
+p.u3 <- function(pi) { pi[8] + pi[5] }
+p.u4 <- function(pi) { pi[4] + pi[1] }
+p.u5 <- function(pi) { -pi[2] + pi[6] + pi[5] + pi[4] + pi[1] }
+p.u6 <- function(pi) { -pi[6] + pi[2] + pi[1] + pi[8] + pi[5] }
+p.u7 <- function(pi) { -pi[7] + pi[8] + pi[5] + pi[4] + pi[3] }
+p.u8 <- function(pi) { -pi[3] + pi[4] + pi[1] + pi[8] + pi[7] }
 
-#a = 1 intervention
-p.u1 <- function(pi) { 1 - pi[6] }
-p.u2 <- function(pi) { 1 - pi[2] }
-p.u3 <- function(pi) { pi[1] + pi[4] + pi[7] + pi[8] }
-p.u4 <- function(pi) { pi[3] + pi[4] + pi[5] + pi[8] }
-p.u5 <- function(pi) { 5  }
-p.u6 <- function(pi) { 5  } 
-p.u7 <- function(pi) { 5 } 
-p.u8 <- function(pi) { 5 }
 
 gamma.u <- function(pi) { pmin(p.u1(pi), p.u2(pi), p.u3(pi), p.u4(pi),
                                p.u5(pi), p.u6(pi), p.u7(pi), p.u8(pi)) }
@@ -588,51 +552,17 @@ C <- uniroot(f, interval = c(-3, 3), extendInt = "yes")
 C <- C$root
 BP.bounds <- c(gamma.l(pi.hat) - C*sd.l1.hat[arg_gamma.l(pi.hat)], gamma.u(pi.hat) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
 
-#Uncomment quantities below depending on the estimate of interest
 
-#BP.bounds.ATE <- BP.bounds
-#BP.bounds0 <- BP.bounds
-BP.bounds1 <- BP.bounds
+BP.bounds.ATE <- BP.bounds
 
-#gam.lATE <- gamma.l(pi.hat)
-#gam.l0 <- gamma.l(pi.hat)
-gam.l1 <- gamma.l(pi.hat)
 
-#gam.uATE <- gamma.u(pi.hat)
-#gam.u0 <- gamma.u(pi.hat)
-gam.u1 <- gamma.u(pi.hat)
+gam.lATE <- gamma.l(pi.hat)
 
-##Plot(uncomment different arrow commands depending on the estimand)
-par(mar = c(3,4,1,1))
-plot(NULL, ylim = c(0,1), xlim = c(0.2,0.8), 
-     xlab = "", ylab = "", xaxt = 'n')
-axis(1, at = c(0.35, 0.65), labels = c("a = 0", "a = 1"))
-abline(h = 0)
-#arrows(x0=0.5, y0=BP.bounds[1], x1=0.5, 
-#     y1= BP.bounds[2], 
-#  code=3, angle=90, length=0.05, lwd=2, col = 'red')
-#arrows(x0=0.5, y0=gamma.l(pi.hat), x1=0.5, y1=gamma.u(pi.hat), 
-#     code=3, angle=90, length=0.025, lwd=2, col = 'blue')
-arrows(x0=0.35, y0=BP.bounds0[1], x1=0.35, 
-       y1=BP.bounds0[2], 
-       code=3, angle=90, length=0.05, lwd=2, col = 'red')
-arrows(x0=0.35, y0=gam.l0, x1=0.35, y1=gam.u0, 
-       code=3, angle=90, length=0.025, lwd=2, col = 'blue')
-arrows(x0=0.65, y0=BP.bounds1[1], x1=0.65, 
-       y1=BP.bounds1[2], 
-       code=3, angle=90, length=0.05, lwd=2, col = 'red')
-arrows(x0=0.65, y0=gam.l1, x1=0.65, y1=gam.u1, 
-       code=3, angle=90, length=0.025, lwd=2, col = 'blue')
 
-#Decision criteria(optimal)
-##Maximax
-as.numeric(BP.bounds1[2] > BP.bounds0[2])
-##Maximin
-as.numeric(BP.bounds1[1] > BP.bounds0[1])
-##Minimax
-as.numeric(BP.bounds.ATE[1] > 0 || (BP.bounds.ATE[2] > 0 && abs(BP.bounds.ATE[2]) > abs(BP.bounds.ATE[1])))
-#Healthcare
-as.numeric(BP.bounds.ATE[1] > 0)
+gam.uATE <- gamma.u(pi.hat)
+
+
+
 
 
 
@@ -658,25 +588,6 @@ as.numeric(BP.bounds.ATE[1] > 0)
 #p.l7 <- function(pi) {-5  } 
 #p.l8 <- function(pi) { -5  }
 
-#a = 0, A = 1 intervention
-#p.l1 <- function(pi) { pi[7] }
-#p.l2 <- function(pi) { pi[3] }
-#p.l3 <- function(pi) { pi[3] + pi[4] - pi[5] - pi[8] }
-#p.l4 <- function(pi) { pi[2] + pi[3] - pi[5] - pi[6] }
-#p.l5 <- function(pi) { -5}
-#p.l6 <- function(pi) { -5  } 
-#p.l7 <- function(pi) {-5  } 
-#p.l8 <- function(pi) { -5  }
-
-#a = 1, A = 0 intervention
-p.l1 <- function(pi) { pi[4] }
-p.l2 <- function(pi) { pi[8] }
-p.l3 <- function(pi) { pi[5] + pi[8] - pi[1] - pi[2] }
-p.l4 <- function(pi) { pi[7] + pi[8] - pi[2] - pi[3] }
-p.l5 <- function(pi) { -5 }
-p.l6 <- function(pi) { -5  } 
-p.l7 <- function(pi) { -5  } 
-p.l8 <- function(pi) { -5  }
 
 
 gamma.l <- function(pi) { pmax(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
@@ -705,25 +616,7 @@ arg_gamma.l <- function(pi) {which.max(c(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
 #p.u7 <- function(pi) { 5 } 
 #p.u8 <- function(pi) { 5 }
 
-#a = 0, A = 1 intervention
-#p.u1 <- function(pi) { 1 - pi[5] }
-#p.u2 <- function(pi) { 1 - pi[1] }
-#p.u3 <- function(pi) { pi[2] + pi[3] + pi[7] + pi[8] }
-#p.u4 <- function(pi) { pi[3] + pi[4] + pi[6] + pi[7] }
-#p.u5 <- function(pi) { 5 }
-#p.u6 <- function(pi) { 5  } 
-#p.u7 <- function(pi) { 5 } 
-#p.u8 <- function(pi) { 5 }
 
-#a = 1, A = 0 intervention
-p.u1 <- function(pi) { 1 - pi[6] }
-p.u2 <- function(pi) { 1 - pi[2] }
-p.u3 <- function(pi) { pi[1] + pi[4] + pi[7] + pi[8] }
-p.u4 <- function(pi) { pi[3] + pi[4] + pi[5] + pi[8] }
-p.u5 <- function(pi) { 5  }
-p.u6 <- function(pi) { 5 } 
-p.u7 <- function(pi) { 5 } 
-p.u8 <- function(pi) { 5 }
 
 
 gamma.u <- function(pi) { pmin(p.u1(pi), p.u2(pi), p.u3(pi), p.u4(pi),
@@ -754,15 +647,7 @@ fmY.A1 <- glm(Y~., data = dat[which(A == 1),-c(1,2,ncol(dat))], family = "binomi
 EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
 fmA <- glm(A~., data = dat[, -c(1,3,ncol(dat))], family = "binomial")
 pA <- predict(fmA, newdata = l, type = "response")
-##Uncomment following depending on the estimand of interest
-#CATE(A = 0)
-#round(c((gamma.l(pi.hat) - EY)/(1-pA), (gamma.u(pi.hat) - EY)/(1-pA)), 3)
-#CATE(A = 1)
-#round(c( (-gamma.u(pi.hat) + EY)/pA, (- gamma.l(pi.hat) + EY)/pA), 3)
-#a = 0, A = 1 intervention
-#round(c((gamma.l(pi.hat) - EY.A0*(1-pA))/pA, (gamma.u(pi.hat) - EY.A0*(1-pA))/pA),3)
-#a = 1, A = 0 intervention
-#round(c((gamma.l(pi.hat) - EY.A1*pA)/(1-pA), (gamma.u(pi.hat) - EY.A1*pA)/(1-pA)),3)
+
 
 ##Jiang & Ding procedure(superoptimal)
 ###bootstrap to get variances
