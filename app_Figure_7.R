@@ -91,25 +91,6 @@ l$black <- as.integer(l$black)
 l$south <- as.integer(l$south)
 l$smsa <- as.integer(l$smsa)
 
-#Influenza case(uncomment below to get analysis for flu data)
-#library(foreign)
-#dat <- read.dta("~/Documents/Github/Bounds-and-Simulation/flu_clean.dta")
-#dat <- dat[, -c(ncol(dat))] 
-#n <- nrow(dat)
-#colnames(dat)[c(1,2,3)] <- c("Z", "A", "Y")
-#dat$Y <- 1-dat$Y
-#A <- dat$A
-#Y <- dat$Y
-#Z <- dat$Z
-#L <- dat[, - c(1,2,3)]
-#set.seed(2023)
-#i <- sample(1:n,1)
-#l <- L[i,]
-#Balke-Pearl bounds functions
-## we work with an 8-vector pi = {pi_{ya.z} : y, a, z \in {0,1}}
-## specifically, take the following order:
-## pi = (pi_{00.0}, pi_{01.0}, pi_{10.0}, pi_{11.0}, 
-##       pi_{00.1}, pi_{01.1}, pi_{10.1}, pi_{11.1})
 
 ##Uncomment upper and lower bound fcts depending on the estimand of interest
 ## lower bound functions
