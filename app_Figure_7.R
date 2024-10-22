@@ -1316,10 +1316,6 @@ fct.u6 <- function(data, ind){
   #return((p.u6(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.u6(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.u6(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.u6(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.u7 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1355,10 +1351,6 @@ fct.u7 <- function(data, ind){
   #return((p.u7(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.u7(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.u7(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.u7(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.u8 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1394,9 +1386,6 @@ fct.u8 <- function(data, ind){
   #return((p.u8(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.u8(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.u8(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
   return((p.u8(pi.hat) - EY.A0*pA)/(1-pA))
 }
 set.seed(2023)
@@ -1425,187 +1414,34 @@ f <- function(x){
 }
 C <- uniroot(f, interval = c(-3, 3), extendInt = "yes")
 C <- C$root
+
+
 #Uncomment following depending on estimand of interest
 #CATE(A = 0)
 #BP.bounds <- c((gamma.l(pi.hat)- EY)/(1-pA) - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY)/(1-pA) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
 #CATE(A = 1)
 #BP.bounds.CATE1 <- c( (-gamma.u(pi.hat) + EY)/pA - C*sd.u1.hat[arg_gamma.u(pi.hat)], (-gamma.l(pi.hat)+ EY)/pA + C*sd.l1.hat[arg_gamma.l(pi.hat)])
-#a = 0, A = 1 intervention
-#BP.bounds.a0A1 <- c((gamma.l(pi.hat)- EY.A0*(1-pA))/pA - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.A0*(1-pA))/pA + C*sd.u1.hat[arg_gamma.u(pi.hat)])
-#a = 1, A = 0 intervention
-BP.bounds.a1A0 <- c((gamma.l(pi.hat)- EY.A1*pA)/(1-pA) - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.A1*pA)/(1-pA) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
 
 
 #BP.bounds.CATE0 <- BP.bounds
-#BP.bounds0 <- BP.bounds
-#BP.bounds1 <- BP.bounds
 
-gam.la1A0 <- gamma.l(pi.hat)
-#gam.la0A1 <- gamma.l(pi.hat)
+
+
 #gam.lCATE1 <- gamma.l(pi.hat)
 #gam.lCATE0 <- gamma.l(pi.hat)
-#gam.l0 <- gamma.l(pi.hat)
-#gam.l1 <- gamma.l(pi.hat)
 
-gam.ua1A0 <- gamma.u(pi.hat)
-#gam.ua0A1 <- gamma.u(pi.hat)
+
+
 #gam.uCATE1 <- gamma.u(pi.hat)
 #gam.uCATE0 <- gamma.u(pi.hat)
-#gam.u0 <- gamma.u(pi.hat)
-#gam.u1 <- gamma.u(pi.hat)
 
 
-#conditional means estimation
-fctA0 <- function(data, ind){
-  Y_boot <- data$Y[ind]
-  A_boot <- data$A[ind]
-  Z_boot <- data$Z[ind]
-  L_boot <- data[ind, -c(1,2,3)]
-  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
-  dat_boot <- cbind(dat_boot, L_boot)
-  Y.A_boot <- data$Y.A[ind]
-  dat_boot <- cbind(dat_boot, Y.A_boot)
-  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
-  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
-  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
-  return(EY.A0)
-}
-fctA1 <- function(data, ind){
-  Y_boot <- data$Y[ind]
-  A_boot <- data$A[ind]
-  Z_boot <- data$Z[ind]
-  L_boot <- data[ind, -c(1,2,3)]
-  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
-  dat_boot <- cbind(dat_boot, L_boot)
-  Y.A_boot <- data$Y.A[ind]
-  dat_boot <- cbind(dat_boot, Y.A_boot)
-  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
-  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
-  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
-  return(EY.A1)
-}
-meanA0 <- EY.A0
-meanA1 <- EY.A1
-set.seed(2023)
-sd.A0 <- sd(boot(dat, fctA0, R)$t)
-sd.A1 <- sd(boot(dat, fctA1, R)$t)
-Bounds.A0 <- c(meanA0 - qnorm(0.975)*sd.A0, meanA0 + qnorm(0.975)*sd.A0)
-Bounds.A1 <- c(meanA1 - qnorm(0.975)*sd.A1, meanA1 + qnorm(0.975)*sd.A1)
-##Plot(superoptimal, CATE)
-par(mar = c(3,4,1,1))
-plot(NULL, ylim = c(-1,1), xlim = c(0.2,0.8), 
-     xlab = "", ylab = "E(Y^1 - Y^0 | A = a, L = l)", xaxt = 'n')
-axis(1, at = c(0.35, 0.65), labels = c("A = 0", "A = 1"))
-abline(h = 0)
-arrows(x0=0.35, y0=BP.bounds.CATE0[1], x1=0.35, 
-       y1=BP.bounds.CATE0[2], 
-       code=3, angle=90, length=0.05, lwd=2, col = 'red')
-arrows(x0=0.35, y0=(gam.lCATE0 - EY)/(1-pA), x1=0.35, y1=(gam.uCATE0 - EY)/(1-pA), 
-       code=3, angle=90, length=0.025, lwd=2, col = 'blue')
-arrows(x0=0.65, y0=BP.bounds.CATE1[1], x1=0.65, 
-       y1=BP.bounds.CATE1[2], 
-       code=3, angle=90, length=0.05, lwd=2, col = 'red')
-arrows(x0=0.65, y0=(-gam.uCATE1 + EY)/pA, x1=0.65, y1=(-gam.lCATE1 + EY)/pA, 
-       code=3, angle=90, length=0.025, lwd=2, col = 'blue')
-##Plot(superoptimal, A = 0)
-par(mar = c(3,4,1,1))
-plot(NULL, ylim = c(0,1), xlim = c(0.2,0.8), 
-     xlab = "", ylab = "E(Y^a | A = 0, L = l)", xaxt = 'n')
-axis(1, at = c(0.35, 0.65), labels = c("a = 1", "a = 0"))
-abline(h = 0)
-arrows(x0=0.35, y0=BP.bounds.a1A0[1], x1=0.35, 
-       y1=BP.bounds.a1A0[2], 
-       code=3, angle=90, length=0.05, lwd=2, col = 'red')
-arrows(x0=0.35, y0=(gam.la1A0 - EY.A1*pA)/(1-pA), x1=0.35, y1=(gam.ua1A0- EY.A1*pA)/(1-pA), 
-       code=3, angle=90, length=0.025, lwd=2, col = 'blue')
-arrows(x0=0.65, y0=Bounds.A0[1], x1=0.65, 
-       y1=Bounds.A0[2], 
-       code=3, angle=90, length=0.05, lwd=2, col = 'red')
-arrows(x0=0.65, y0=meanA0, x1=0.65, y1=meanA0, 
-       code=3, angle=90, length=0.025, lwd=2, col = 'blue')
-##Plot(superoptimal, A = 1)
-par(mar = c(3,4,1,1))
-plot(NULL, ylim = c(-0.1,1.1), xlim = c(0.2,0.8), 
-     xlab = "", ylab = "E(Y^a | A = 1, L = l)", xaxt = 'n')
-axis(1, at = c(0.35, 0.65), labels = c("a = 0", "a = 1"))
-abline(h = 0)
-arrows(x0=0.35, y0=BP.bounds.a0A1[1], x1=0.35, 
-       y1=BP.bounds.a0A1[2], 
-       code=3, angle=90, length=0.05, lwd=2, col = 'red')
-arrows(x0=0.35, y0=(gam.la0A1- EY.A0*(1-pA))/pA, x1=0.35, y1=(gam.ua0A1- EY.A0*(1-pA))/pA, 
-       code=3, angle=90, length=0.025, lwd=2, col = 'blue')
-arrows(x0=0.65, y0=Bounds.A1[1], x1=0.65, 
-       y1=Bounds.A1[2], 
-       code=3, angle=90, length=0.05, lwd=2, col = 'red')
-arrows(x0=0.65, y0=meanA1, x1=0.65, y1=meanA1, 
-       code=3, angle=90, length=0.025, lwd=2, col = 'blue')
-
-#Decision criteria(superoptimal A = 0)
-##Maximax
-as.numeric(BP.bounds.a1A0[2] > Bounds.A0[2])
-##Maximin
-as.numeric(BP.bounds.a1A0[1] > Bounds.A0[1])
-##Minimax
-as.numeric(BP.bounds.CATE0[1] > 0 || (BP.bounds.CATE0[2] > 0 && abs(BP.bounds.CATE0[2]) > abs(BP.bounds.CATE0[1])))
-#Healthcare
-as.numeric(BP.bounds.CATE0[1] > 0)
-
-#Decision criteria(superoptimal A = 1)
-##Maximax
-as.numeric(Bounds.A1[2] > BP.bounds.a0A1[2])
-##Maximin
-as.numeric(Bounds.A1[1] > BP.bounds.a0A1[1])
-##Minimax
-as.numeric(BP.bounds.CATE1[1] > 0 || (BP.bounds.CATE1[2] > 0 && abs(BP.bounds.CATE1[2]) > abs(BP.bounds.CATE1[1])))
-#Healthcare
-as.numeric(BP.bounds.CATE1[1] > 0)
 
 
-#Combined plots
-##Setting line width
-width = 3
-##Combined plot
-par(mar = c(3,4,1,1))
-plot(NULL, ylim = c(0,1), xlim = c(0.1,0.8), 
-     xlab = "", ylab = "", xaxt = 'n')
-axis(1, at = c(0.2, 0.3, 0.4, 0.5, 0.6, 0.7), labels = c(expression("E(Y"^"0"*")"), expression("E(Y"^"1"*")"), "E(Y | A = 0)", expression("E(Y"^"1"*"|A = 0)"), expression("E(Y"^"0"*"| A = 1)"), "E(Y|A = 1)"))
-abline(h = 0)
-###a = 0
-arrows(x0=0.2, y0=max(0,BP.bounds0[1]), x1=0.2, 
-       y1=min(1,BP.bounds0[2]), 
-       code=3, angle=90, length=0.05, lwd=width, col = 'red')
-arrows(x0=0.2, y0=gam.l0, x1=0.2, y1=gam.u0, 
-       code=3, angle=90, length=0.025, lwd=width, col = 'blue')
-###a = 1
-arrows(x0=0.3, y0=max(0,BP.bounds1[1]), x1=0.3, 
-       y1=min(1,BP.bounds1[2]), 
-       code=3, angle=90, length=0.05, lwd=width, col = 'red')
-arrows(x0=0.3, y0=gam.l1, x1=0.3, y1=gam.u1, 
-       code=3, angle=90, length=0.025, lwd=width, col = 'blue')
-###a = 0, A = 0
-arrows(x0=0.4, y0=max(0,Bounds.A0[1]), x1=0.4, 
-       y1=min(1,Bounds.A0[2]), 
-       code=3, angle=90, length=0.05, lwd=width, col = 'red')
-arrows(x0=0.4, y0=meanA0, x1=0.4, y1=meanA0, 
-       code=3, angle=90, length=0.025, lwd=width, col = 'blue')
-###a = 1, A = 0
-arrows(x0=0.5, y0=max(0,BP.bounds.a1A0[1]), x1=0.5, 
-       y1=min(1,BP.bounds.a1A0[2]), 
-       code=3, angle=90, length=0.05, lwd=width, col = 'red')
-arrows(x0=0.5, y0=(gam.la1A0 - EY.A1*pA)/(1-pA), x1=0.5, y1=(gam.ua1A0- EY.A1*pA)/(1-pA), 
-       code=3, angle=90, length=0.025, lwd=width, col = 'blue')
-###a = 0, A = 1
-arrows(x0=0.6, y0=max(0,BP.bounds.a0A1[1]), x1=0.6, 
-       y1=min(1,BP.bounds.a0A1[2]), 
-       code=3, angle=90, length=0.05, lwd=width, col = 'red')
-arrows(x0=0.6, y0=(gam.la0A1- EY.A0*(1-pA))/pA, x1=0.6, y1=(gam.ua0A1- EY.A0*(1-pA))/pA, 
-       code=3, angle=90, length=0.025, lwd=width, col = 'blue')
-#a = 1, A = 1
-arrows(x0=0.7, y0=max(0,Bounds.A1[1]), x1=0.7, 
-       y1=min(1,Bounds.A1[2]), 
-       code=3, angle=90, length=0.05, lwd=width, col = 'red')
-arrows(x0=0.7, y0=meanA1, x1=0.7, y1=meanA1, 
-       code=3, angle=90, length=0.025, lwd=width, col = 'blue')
+
+
+
+
 
 #Combined CATE plots
 ##Setting line width
