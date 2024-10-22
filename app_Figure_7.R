@@ -803,10 +803,6 @@ fct.l1 <- function(data, ind){
   #return((p.l1(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.l1(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.l1(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.l1(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.l2 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -842,10 +838,6 @@ fct.l2 <- function(data, ind){
   #return((p.l2(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.l2(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.l2(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.l2(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.l3 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -881,10 +873,6 @@ fct.l3 <- function(data, ind){
   #return((p.l3(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.l3(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.l3(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.l3(pi.hat) - EY.A0*pA)/(1-pA))
 }
 
 fct.l4 <- function(data, ind){
@@ -921,10 +909,6 @@ fct.l4 <- function(data, ind){
   #return((p.l4(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.l4(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.l4(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.l4(pi.hat) - EY.A0*pA)/(1-pA))
 }
 
 
@@ -962,10 +946,6 @@ fct.l5 <- function(data, ind){
   #return((p.l5(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.l5(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.l5(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.l5(pi.hat) - EY.A0*pA)/(1-pA))
 }
 
 fct.l6 <- function(data, ind){
@@ -1002,10 +982,6 @@ fct.l6 <- function(data, ind){
   #return((p.l6(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.l6(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.l6(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.l6(pi.hat) - EY.A0*pA)/(1-pA))
 }
 
 fct.l7 <- function(data, ind){
@@ -1042,10 +1018,6 @@ fct.l7 <- function(data, ind){
   #return((p.l7(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.l7(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.l7(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.l7(pi.hat) - EY.A0*pA)/(1-pA))
 }
 
 fct.l8 <- function(data, ind){
@@ -1082,10 +1054,6 @@ fct.l8 <- function(data, ind){
   #return((p.l8(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.l8(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.l8(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.l8(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.u1 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1121,10 +1089,6 @@ fct.u1 <- function(data, ind){
   #return((p.u1(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.u1(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.u1(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.u1(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.u2 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1160,10 +1124,6 @@ fct.u2 <- function(data, ind){
   #return((p.u2(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.u2(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.u2(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.u2(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.u3 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1199,10 +1159,6 @@ fct.u3 <- function(data, ind){
   #return((p.u3(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.u3(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.u3(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.u3(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.u4 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1238,10 +1194,6 @@ fct.u4 <- function(data, ind){
   #return((p.u4(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.u4(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.u4(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.u4(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.u5 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1277,10 +1229,6 @@ fct.u5 <- function(data, ind){
   #return((p.u5(pi.hat) - EY)/(1-pA))
   #CATE(A = 1)
   #return((p.u5(pi.hat) - EY)/pA)
-  #a = 0, A = 1 intervention
-  #return((p.u5(pi.hat) - EY.A0*(1-pA))/pA)
-  #a = 1, A = 0 intervention
-  return((p.u5(pi.hat) - EY.A0*pA)/(1-pA))
 }
 fct.u6 <- function(data, ind){
   Y_boot <- data$Y[ind]
