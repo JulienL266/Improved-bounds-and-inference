@@ -1030,16 +1030,6 @@ gam.u0 <- gamma.u(pi.hat)
 
 
 #Balke-Pearl bounds(superoptimal)
-#a = 0, A = 1 intervention
-#p.l1 <- function(pi) { pi[7] }
-#p.l2 <- function(pi) { pi[3] }
-#p.l3 <- function(pi) { pi[3] + pi[4] - pi[5] - pi[8] }
-#p.l4 <- function(pi) { pi[2] + pi[3] - pi[5] - pi[6] }
-#p.l5 <- function(pi) { -5}
-#p.l6 <- function(pi) { -5  } 
-#p.l7 <- function(pi) {-5  } 
-#p.l8 <- function(pi) { -5  }
-
 #a = 1, A = 0 intervention
 p.l1 <- function(pi) { pi[4] }
 p.l2 <- function(pi) { pi[8] }
@@ -1057,16 +1047,6 @@ arg_gamma.l <- function(pi) {which.max(c(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
                                          p.l5(pi), p.l6(pi), p.l7(pi), p.l8(pi)))}
 
 ## upper bound functions
-#a = 0, A = 1 intervention
-#p.u1 <- function(pi) { 1 - pi[5] }
-#p.u2 <- function(pi) { 1 - pi[1] }
-#p.u3 <- function(pi) { pi[2] + pi[3] + pi[7] + pi[8] }
-#p.u4 <- function(pi) { pi[3] + pi[4] + pi[6] + pi[7] }
-#p.u5 <- function(pi) { 5 }
-#p.u6 <- function(pi) { 5  } 
-#p.u7 <- function(pi) { 5 } 
-#p.u8 <- function(pi) { 5 }
-
 #a = 1, A = 0 intervention
 p.u1 <- function(pi) { 1 - pi[6] }
 p.u2 <- function(pi) { 1 - pi[2] }
@@ -1141,8 +1121,6 @@ fct.l1 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.l1(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.l1(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1176,8 +1154,6 @@ fct.l2 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.l2(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.l2(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1211,8 +1187,6 @@ fct.l3 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.l3(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.l3(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1247,8 +1221,6 @@ fct.l4 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) -1,ncol(dat_boot) )], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.l4(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.l4(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1284,8 +1256,6 @@ fct.l5 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.l5(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.l5(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1320,8 +1290,6 @@ fct.l6 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.l6(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.l6(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1356,8 +1324,6 @@ fct.l7 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.l7(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.l7(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1392,8 +1358,6 @@ fct.l8 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.l8(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.l8(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1427,8 +1391,6 @@ fct.u1 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.u1(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.u1(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1462,8 +1424,6 @@ fct.u2 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.u2(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.u2(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1497,8 +1457,6 @@ fct.u3 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.u3(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.u3(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1532,8 +1490,6 @@ fct.u4 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.u4(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.u4(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1567,8 +1523,6 @@ fct.u5 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.u5(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.u5(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1602,8 +1556,6 @@ fct.u6 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.u6(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.u6(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1637,8 +1589,6 @@ fct.u7 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.u7(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.u7(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1672,8 +1622,6 @@ fct.u8 <- function(data, ind){
   EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
   fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
   pA <- predict(fmA, newdata = l, type = "response")
-  #a = 0, A = 1 intervention
-  #return((p.u8(pi.hat) - EY.A0*(1-pA))/pA)
   #a = 1, A = 0 intervention
   return((p.u8(pi.hat) - EY.A0*pA)/(1-pA))
 }
@@ -1704,24 +1652,643 @@ f <- function(x){
 C <- uniroot(f, interval = c(-3, 3), extendInt = "yes")
 C <- C$root
 
-#a = 0, A = 1 intervention
-#BP.bounds.a0A1 <- c((gamma.l(pi.hat)- EY.A0*(1-pA))/pA - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.A0*(1-pA))/pA + C*sd.u1.hat[arg_gamma.u(pi.hat)])
 #a = 1, A = 0 intervention
 BP.bounds.a1A0 <- c((gamma.l(pi.hat)- EY.A1*pA)/(1-pA) - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.A1*pA)/(1-pA) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
 
-
-#BP.bounds0 <- BP.bounds
-#BP.bounds1 <- BP.bounds
-
 gam.la1A0 <- gamma.l(pi.hat)
-#gam.la0A1 <- gamma.l(pi.hat)
-#gam.l0 <- gamma.l(pi.hat)
-#gam.l1 <- gamma.l(pi.hat)
 
 gam.ua1A0 <- gamma.u(pi.hat)
-#gam.ua0A1 <- gamma.u(pi.hat)
-#gam.u0 <- gamma.u(pi.hat)
-#gam.u1 <- gamma.u(pi.hat)
+
+
+#Balke-Pearl bounds(superoptimal)
+#a = 0, A = 1 intervention
+p.l1 <- function(pi) { pi[7] }
+p.l2 <- function(pi) { pi[3] }
+p.l3 <- function(pi) { pi[3] + pi[4] - pi[5] - pi[8] }
+p.l4 <- function(pi) { pi[2] + pi[3] - pi[5] - pi[6] }
+p.l5 <- function(pi) { -5}
+p.l6 <- function(pi) { -5  } 
+p.l7 <- function(pi) {-5  } 
+p.l8 <- function(pi) { -5  }
+
+
+gamma.l <- function(pi) { pmax(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
+                               p.l5(pi), p.l6(pi), p.l7(pi), p.l8(pi)) }
+arg_gamma.l <- function(pi) {which.max(c(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
+                                         p.l5(pi), p.l6(pi), p.l7(pi), p.l8(pi)))}
+
+## upper bound functions
+#a = 0, A = 1 intervention
+p.u1 <- function(pi) { 1 - pi[5] }
+p.u2 <- function(pi) { 1 - pi[1] }
+p.u3 <- function(pi) { pi[2] + pi[3] + pi[7] + pi[8] }
+p.u4 <- function(pi) { pi[3] + pi[4] + pi[6] + pi[7] }
+p.u5 <- function(pi) { 5 }
+p.u6 <- function(pi) { 5  } 
+p.u7 <- function(pi) { 5 } 
+p.u8 <- function(pi) { 5 }
+
+gamma.u <- function(pi) { pmin(p.u1(pi), p.u2(pi), p.u3(pi), p.u4(pi),
+                               p.u5(pi), p.u6(pi), p.u7(pi), p.u8(pi)) }
+arg_gamma.u <- function(pi) {which.min(c(p.u1(pi), p.u2(pi), p.u3(pi), p.u4(pi),
+                                         p.u5(pi), p.u6(pi), p.u7(pi), p.u8(pi)))}
+
+#Balke Pearl bounds(superoptimal)
+dat$Y.A <- factor(dat$Y):factor(dat$A)
+pi.ya.0 <- multinom(Y.A ~ ., data = dat[dat$Z==0, -(1:3)], family = "binomial")
+pi.ya.1 <- multinom(Y.A ~ ., data = dat[dat$Z==1, -(1:3)], family = "binomial")
+pi.hat <- data.frame(predict(pi.ya.0, type = 'probs', newdata = l))
+pi.hat <- data.frame(t(pi.hat))
+colnames(pi.hat) <-
+  c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+## compile pi.hat_{ya.1} estimates
+colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+  c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+pi.hat <- as.numeric(pi.hat)
+
+#models for Y and A based on L
+fmY <- glm(Y~., data = dat[, -c(1,2,ncol(dat))], family = "binomial")
+EY <- predict(fmY, newdata = l, type = "response")
+fmY.A0 <- glm(Y~., data = dat[which(A == 0),-c(1,2,ncol(dat))], family = "binomial")
+EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+fmY.A1 <- glm(Y~., data = dat[which(A == 1),-c(1,2,ncol(dat))], family = "binomial")
+EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+fmA <- glm(A~., data = dat[, -c(1,3,ncol(dat))], family = "binomial")
+pA <- predict(fmA, newdata = l, type = "response")
+
+##Jiang & Ding procedure(superoptimal)
+###bootstrap to get variances
+sd.l1.hat <- rep(NA, 8)
+sd.u1.hat <- rep(NA, 8)
+fct.l1 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot)-1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.l1(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.l2 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1 )], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.l2(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.l3 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.l3(pi.hat) - EY.A0*(1-pA))/pA)
+}
+
+fct.l4 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) -1,ncol(dat_boot) )], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.l4(pi.hat) - EY.A0*(1-pA))/pA)
+}
+
+
+fct.l5 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.l5(pi.hat) - EY.A0*(1-pA))/pA)
+}
+
+fct.l6 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.l6(pi.hat) - EY.A0*(1-pA))/pA)
+}
+
+fct.l7 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) -1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) -1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.l7(pi.hat) - EY.A0*(1-pA))/pA)
+}
+
+fct.l8 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.l8(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.u1 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.u1(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.u2 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.u2(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.u3 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.u3(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.u4 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.u4(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.u5 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.u5(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.u6 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot) )], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.u6(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.u7 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.u7(pi.hat) - EY.A0*(1-pA))/pA)
+}
+fct.u8 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,ncol(dat_boot) - 1)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  #models for Y and A based on L
+  fmY <- glm(Y_boot~., data = dat_boot[, -c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY <- predict(fmY, newdata = l, type = "response")
+  fmY.A0 <- glm(Y_boot~., data = dat_boot[which(A_boot == 0),-c(1,2,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  EY.A0 <- predict(fmY.A0, newdata = l, type = "response")
+  fmY.A1 <- glm(Y_boot~., data = dat_boot[which(A_boot == 1),-c(1,2,ncol(dat_boot) -1,ncol(dat_boot) )], family = "binomial")
+  EY.A1 <- predict(fmY.A1, newdata = l, type = "response")
+  fmA <- glm(A_boot~., data = dat_boot[, -c(1,3,ncol(dat_boot) - 1,ncol(dat_boot))], family = "binomial")
+  pA <- predict(fmA, newdata = l, type = "response")
+  #a = 0, A = 1 intervention
+  return((p.u8(pi.hat) - EY.A0*(1-pA))/pA)
+}
+set.seed(2023)
+R <- 1000
+sd.l1.hat[1] <- sd(boot(dat, fct.l1, R)$t)
+sd.l1.hat[2] <- sd(boot(dat, fct.l2, R)$t)
+sd.l1.hat[3] <- sd(boot(dat, fct.l3, R)$t)
+sd.l1.hat[4] <- sd(boot(dat, fct.l4, R)$t)
+sd.l1.hat[5] <- sd(boot(dat, fct.l5, R)$t)
+sd.l1.hat[6] <- sd(boot(dat, fct.l6, R)$t)
+sd.l1.hat[7] <- sd(boot(dat, fct.l7, R)$t)
+sd.l1.hat[8] <- sd(boot(dat, fct.l8, R)$t)
+
+sd.u1.hat[1] <- sd(boot(dat, fct.u1, R)$t)
+sd.u1.hat[2] <- sd(boot(dat, fct.u2, R)$t)
+sd.u1.hat[3] <- sd(boot(dat, fct.u3, R)$t)
+sd.u1.hat[4] <- sd(boot(dat, fct.u4, R)$t)
+sd.u1.hat[5] <- sd(boot(dat, fct.u5, R)$t)
+sd.u1.hat[6] <- sd(boot(dat, fct.u6, R)$t)
+sd.u1.hat[7] <- sd(boot(dat, fct.u7, R)$t)
+sd.u1.hat[8] <- sd(boot(dat, fct.u8, R)$t)
+
+alpha = 0.05
+f <- function(x){
+  return(pnorm(x + (gamma.u(pi.hat) - gamma.l(pi.hat))/(max(sd.l1.hat[arg_gamma.l(pi.hat)], sd.u1.hat[arg_gamma.u(pi.hat)]))) - pnorm(-x) - (1-alpha))
+}
+C <- uniroot(f, interval = c(-3, 3), extendInt = "yes")
+C <- C$root
+
+#a = 0, A = 1 intervention
+BP.bounds.a0A1 <- c((gamma.l(pi.hat)- EY.A0*(1-pA))/pA - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.A0*(1-pA))/pA + C*sd.u1.hat[arg_gamma.u(pi.hat)])
+
+gam.la0A1 <- gamma.l(pi.hat)
+
+gam.ua0A1 <- gamma.u(pi.hat)
+
 
 
 #conditional means estimation
