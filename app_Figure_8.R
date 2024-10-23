@@ -98,16 +98,6 @@ l$smsa <- as.integer(l$smsa)
 ##       pi_{00.1}, pi_{01.1}, pi_{10.1}, pi_{11.1})
 
 ## lower bound functions
-#a = 0 intervention
-#p.l1 <- function(pi) { pi[7] }
-#p.l2 <- function(pi) { pi[3] }
-#p.l3 <- function(pi) { pi[3] + pi[4] - pi[5] - pi[8] }
-#p.l4 <- function(pi) { pi[2] + pi[3] - pi[5] - pi[6] }
-#p.l6 <- function(pi) { -5  } 
-#p.l5 <- function(pi) { -5}
-#p.l7 <- function(pi) {-5  } 
-#p.l8 <- function(pi) { -5  }
-
 #a = 1 intervention
 p.l1 <- function(pi) { pi[4] }
 p.l2 <- function(pi) { pi[8] }
@@ -124,16 +114,6 @@ arg_gamma.l <- function(pi) {which.max(c(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
                                          p.l5(pi), p.l6(pi), p.l7(pi), p.l8(pi)))}
 
 ## upper bound functions
-#a = 0 intervention
-#p.u1 <- function(pi) { 1 - pi[5] }
-#p.u2 <- function(pi) { 1 - pi[1] }
-#p.u3 <- function(pi) { pi[2] + pi[3] + pi[7] + pi[8] }
-#p.u4 <- function(pi) { pi[3] + pi[4] + pi[6] + pi[7] }
-#p.u5 <- function(pi) { 5 }
-#p.u6 <- function(pi) { 5  } 
-#p.u7 <- function(pi) { 5 } 
-#p.u8 <- function(pi) { 5 }
-
 #a = 1 intervention
 p.u1 <- function(pi) { 1 - pi[6] }
 p.u2 <- function(pi) { 1 - pi[2] }
@@ -575,14 +555,478 @@ C <- C$root
 BP.bounds <- c(gamma.l(pi.hat) - C*sd.l1.hat[arg_gamma.l(pi.hat)], gamma.u(pi.hat) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
 
 
-#BP.bounds0 <- BP.bounds
 BP.bounds1 <- BP.bounds
 
-#gam.l0 <- gamma.l(pi.hat)
 gam.l1 <- gamma.l(pi.hat)
 
-#gam.u0 <- gamma.u(pi.hat)
 gam.u1 <- gamma.u(pi.hat)
+
+## lower bound functions
+#a = 0 intervention
+p.l1 <- function(pi) { pi[7] }
+p.l2 <- function(pi) { pi[3] }
+p.l3 <- function(pi) { pi[3] + pi[4] - pi[5] - pi[8] }
+p.l4 <- function(pi) { pi[2] + pi[3] - pi[5] - pi[6] }
+p.l6 <- function(pi) { -5  } 
+p.l5 <- function(pi) { -5}
+p.l7 <- function(pi) {-5  } 
+p.l8 <- function(pi) { -5  }
+
+
+gamma.l <- function(pi) { pmax(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
+                               p.l5(pi), p.l6(pi), p.l7(pi), p.l8(pi)) }
+arg_gamma.l <- function(pi) {which.max(c(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
+                                         p.l5(pi), p.l6(pi), p.l7(pi), p.l8(pi)))}
+
+## upper bound functions
+#a = 0 intervention
+p.u1 <- function(pi) { 1 - pi[5] }
+p.u2 <- function(pi) { 1 - pi[1] }
+p.u3 <- function(pi) { pi[2] + pi[3] + pi[7] + pi[8] }
+p.u4 <- function(pi) { pi[3] + pi[4] + pi[6] + pi[7] }
+p.u5 <- function(pi) { 5 }
+p.u6 <- function(pi) { 5  } 
+p.u7 <- function(pi) { 5 } 
+p.u8 <- function(pi) { 5 }
+
+
+gamma.u <- function(pi) { pmin(p.u1(pi), p.u2(pi), p.u3(pi), p.u4(pi),
+                               p.u5(pi), p.u6(pi), p.u7(pi), p.u8(pi)) }
+arg_gamma.u <- function(pi) {which.min(c(p.u1(pi), p.u2(pi), p.u3(pi), p.u4(pi),
+                                         p.u5(pi), p.u6(pi), p.u7(pi), p.u8(pi)))}
+
+
+dat$Y.A <- factor(dat$Y):factor(dat$A)
+pi.ya.0 <- multinom(Y.A ~ ., data = dat[dat$Z==0, -(1:3)], family = "binomial")
+pi.ya.1 <- multinom(Y.A ~ ., data = dat[dat$Z==1, -(1:3)], family = "binomial")
+
+pi.hat <- data.frame(predict(pi.ya.0, type = 'probs', newdata = l))
+pi.hat <- data.frame(t(pi.hat))
+colnames(pi.hat) <-
+  c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+## compile pi.hat_{ya.1} estimates
+colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+  c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+pi.hat <- as.numeric(pi.hat)
+round(c(gamma.l(pi.hat), gamma.u(pi.hat)), 3)
+
+##Jiang & Ding procedure(optimal)
+###bootstrap to get variances
+sd.l1.hat <- rep(NA, 8)
+sd.u1.hat <- rep(NA, 8)
+data = data.frame(Y = Y, A = A, Z = Z)
+data <- cbind(data,L)
+fct.l1 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.l1(pi.hat))
+}
+fct.l2 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.l2(pi.hat))
+}
+fct.l3 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.l3(pi.hat))
+}
+
+
+
+fct.l4 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.l4(pi.hat))
+}
+
+fct.l5 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.l5(pi.hat))
+}
+
+fct.l6 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.l6(pi.hat))
+}
+
+fct.l7 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.l7(pi.hat))
+}
+
+fct.l8 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.l8(pi.hat))
+}
+fct.u1 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.u1(pi.hat))
+}
+fct.u2 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.u2(pi.hat))
+}
+fct.u3 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.u3(pi.hat))
+}
+fct.u4 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.u4(pi.hat))
+}
+fct.u5 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.u5(pi.hat))
+}
+fct.u6 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.u6(pi.hat))
+}
+fct.u7 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.u7(pi.hat))
+}
+fct.u8 <- function(data, ind){
+  Y_boot <- data$Y[ind]
+  A_boot <- data$A[ind]
+  Z_boot <- data$Z[ind]
+  L_boot <- data[ind, -c(1,2,3,12)]
+  dat_boot <- data.frame(Z_boot = Z_boot, A_boot = A_boot, Y_boot = Y_boot)
+  dat_boot <- cbind(dat_boot, L_boot)
+  Y.A_boot <- data$Y.A[ind]
+  dat_boot <- cbind(dat_boot, Y.A_boot)
+  colnames(dat_boot)[ncol(dat_boot)] <- c("Y.A_boot")
+  pi.ya.0 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==0, -c(1,2,3,11)], family = "binomial")
+  pi.ya.1 <- multinom(Y.A_boot ~ ., data = dat_boot[dat_boot$Z_boot==1, -c(1,2,3,11)], family = "binomial")
+  
+  pi.hat <- data.frame(t(predict(pi.ya.0, type = 'probs', newdata = l)))
+  colnames(pi.hat) <-
+    c("pi_00.0", "pi_01.0", "pi_10.0", "pi_11.0")
+  pi.hat <- cbind.data.frame(pi.hat, data.frame(t(predict(pi.ya.1, type = 'probs', newdata = l))))
+  ## compile pi.hat_{ya.1} estimates
+  colnames(pi.hat)[(ncol(pi.hat) - 3):ncol(pi.hat)] <-
+    c("pi_00.1", "pi_01.1", "pi_10.1", "pi_11.1")
+  pi.hat <- as.numeric(pi.hat)
+  return(p.u8(pi.hat))
+}
+set.seed(2023)
+R <- 1000
+sd.l1.hat[1] <- sd(boot(dat, fct.l1, R)$t)
+sd.l1.hat[2] <- sd(boot(dat, fct.l2, R)$t)
+sd.l1.hat[3] <- sd(boot(dat, fct.l3, R)$t)
+sd.l1.hat[4] <- sd(boot(dat, fct.l4, R)$t)
+sd.l1.hat[5] <- sd(boot(dat, fct.l5, R)$t)
+sd.l1.hat[6] <- sd(boot(dat, fct.l6, R)$t)
+sd.l1.hat[7] <- sd(boot(dat, fct.l7, R)$t)
+sd.l1.hat[8] <- sd(boot(dat, fct.l8, R)$t)
+
+sd.u1.hat[1] <- sd(boot(dat, fct.u1, R)$t)
+sd.u1.hat[2] <- sd(boot(dat, fct.u2, R)$t)
+sd.u1.hat[3] <- sd(boot(dat, fct.u3, R)$t)
+sd.u1.hat[4] <- sd(boot(dat, fct.u4, R)$t)
+sd.u1.hat[5] <- sd(boot(dat, fct.u5, R)$t)
+sd.u1.hat[6] <- sd(boot(dat, fct.u6, R)$t)
+sd.u1.hat[7] <- sd(boot(dat, fct.u7, R)$t)
+sd.u1.hat[8] <- sd(boot(dat, fct.u8, R)$t)
+
+alpha = 0.05
+f <- function(x){
+  return(pnorm(x + (gamma.u(pi.hat) - gamma.l(pi.hat))/(max(sd.l1.hat[arg_gamma.l(pi.hat)], sd.u1.hat[arg_gamma.u(pi.hat)]))) - pnorm(-x) - (1-alpha))
+}
+C <- uniroot(f, interval = c(-3, 3), extendInt = "yes")
+C <- C$root
+BP.bounds <- c(gamma.l(pi.hat) - C*sd.l1.hat[arg_gamma.l(pi.hat)], gamma.u(pi.hat) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
+
+
+BP.bounds0 <- BP.bounds
+
+gam.l0 <- gamma.l(pi.hat)
+
+gam.u0 <- gamma.u(pi.hat)
+
 
 
 #Balke-Pearl bounds(superoptimal)
