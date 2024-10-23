@@ -944,25 +944,14 @@ gam.uCATE1 <- gamma.u(pi.hat)
 #gam.uCATE0 <- gamma.u(pi.hat)
 
 #Balke-Pearl bounds((L,A)-optimal)
-#Uncomment upper and lower bound fcts depending on the estimand of interest
 #CATE(A = 0)
-#p.l1 <- function(pi) { pi[4] }
-#p.l2 <- function(pi) { pi[8] }
-#p.l3 <- function(pi) { pi[5] + pi[8] - pi[1] - pi[2] }
-#p.l4 <- function(pi) { pi[7] + pi[8] - pi[2] - pi[3] }
-#p.l5 <- function(pi) { -5 }
-#p.l6 <- function(pi) { -5  } 
-#p.l7 <- function(pi) { -5  }
-#p.l8 <- function(pi) { -5  }
-
-#CATE(A = 1)
-p.l1 <- function(pi) { pi[7] }
-p.l2 <- function(pi) { pi[3] }
-p.l3 <- function(pi) { pi[3] + pi[4] - pi[5] - pi[8] }
-p.l4 <- function(pi) { pi[2] + pi[3] - pi[5] - pi[6] }
-p.l5 <- function(pi) { -5}
+p.l1 <- function(pi) { pi[4] }
+p.l2 <- function(pi) { pi[8] }
+p.l3 <- function(pi) { pi[5] + pi[8] - pi[1] - pi[2] }
+p.l4 <- function(pi) { pi[7] + pi[8] - pi[2] - pi[3] }
+p.l5 <- function(pi) { -5 }
 p.l6 <- function(pi) { -5  } 
-p.l7 <- function(pi) {-5  } 
+p.l7 <- function(pi) { -5  }
 p.l8 <- function(pi) { -5  }
 
 
@@ -973,24 +962,15 @@ arg_gamma.l <- function(pi) {which.max(c(p.l1(pi), p.l2(pi), p.l3(pi), p.l4(pi),
 
 ## upper bound functions
 #CATE(A = 0)
-#p.u1 <- function(pi) { 1 - pi[6] }
-#p.u2 <- function(pi) { 1 - pi[2] }
-#p.u3 <- function(pi) { pi[1] + pi[4] + pi[7] + pi[8] }
-#p.u4 <- function(pi) { pi[3] + pi[4] + pi[5] + pi[8] }
-#p.u5 <- function(pi) { 5  }
-#p.u6 <- function(pi) { 5 } 
-#p.u7 <- function(pi) { 5 } 
-#p.u8 <- function(pi) { 5}
-
-#CATE(A = 1)
-p.u1 <- function(pi) { 1 - pi[5] }
-p.u2 <- function(pi) { 1 - pi[1] }
-p.u3 <- function(pi) { pi[2] + pi[3] + pi[7] + pi[8] }
-p.u4 <- function(pi) { pi[3] + pi[4] + pi[6] + pi[7] }
-p.u5 <- function(pi) { 5 }
-p.u6 <- function(pi) { 5  } 
+p.u1 <- function(pi) { 1 - pi[6] }
+p.u2 <- function(pi) { 1 - pi[2] }
+p.u3 <- function(pi) { pi[1] + pi[4] + pi[7] + pi[8] }
+p.u4 <- function(pi) { pi[3] + pi[4] + pi[5] + pi[8] }
+p.u5 <- function(pi) { 5  }
+p.u6 <- function(pi) { 5 } 
 p.u7 <- function(pi) { 5 } 
-p.u8 <- function(pi) { 5 }
+p.u8 <- function(pi) { 5}
+
 
 
 
@@ -1036,7 +1016,6 @@ pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
 
 ##Jiang & Ding procedure(superoptimal)
 ###bootstrap to get variances
-##Uncomment upper and lower bound fcts depending on the estimand of interest
 sd.l1.hat <- rep(NA, 8)
 sd.u1.hat <- rep(NA, 8)
 fct.l1 <- function(data, ind){
@@ -1079,9 +1058,7 @@ fct.l1 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.l1(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.l1(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.l1(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.l2 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1123,9 +1100,7 @@ fct.l2 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.l2(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.l2(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.l2(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.l3 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1167,9 +1142,7 @@ fct.l3 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.l3(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.l3(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.l3(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 
 fct.l4 <- function(data, ind){
@@ -1212,9 +1185,7 @@ fct.l4 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.l4(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.l4(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.l4(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 
 
@@ -1258,9 +1229,7 @@ fct.l5 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.l5(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.l5(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.l5(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 
 fct.l6 <- function(data, ind){
@@ -1303,9 +1272,7 @@ fct.l6 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.l6(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.l6(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.l6(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 
 fct.l7 <- function(data, ind){
@@ -1348,9 +1315,7 @@ fct.l7 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.l7(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.l7(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.l7(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 
 fct.l8 <- function(data, ind){
@@ -1393,9 +1358,7 @@ fct.l8 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.l8(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.l8(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.l8(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.u1 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1437,9 +1400,7 @@ fct.u1 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.u1(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.u1(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.u1(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.u2 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1481,9 +1442,7 @@ fct.u2 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.u2(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.u2(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.u2(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.u3 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1525,9 +1484,7 @@ fct.u3 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.u3(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.u3(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.u3(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.u4 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1569,9 +1526,7 @@ fct.u4 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.u4(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.u4(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.u4(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.u5 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1613,9 +1568,7 @@ fct.u5 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.u5(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.u5(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.u5(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.u6 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1657,9 +1610,7 @@ fct.u6 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.u6(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.u6(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.u6(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.u7 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1701,9 +1652,7 @@ fct.u7 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.u7(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.u7(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.u7(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 fct.u8 <- function(data, ind){
   Y_boot <- data$Y[ind]
@@ -1745,9 +1694,7 @@ fct.u8 <- function(data, ind){
   fmA.Z1 <- glm(A_boot~., data = dat_boot[which(Z_boot == 1), -c(1,3,ncol(dat_boot) -1,ncol(dat_boot))], family = "binomial")
   pA.Z1 <- predict(fmA.Z1, newdata = l, type = "response")
   #CATE(A=0,Z=0)
-  #return((p.u8(pi.hat) - EY.Z0)/(1-pA.Z0))
-  #CATE(A = 1,Z=0)
-  return((p.u8(pi.hat) - EY.Z0)/pA.Z0)
+  return((p.u8(pi.hat) - EY.Z0)/(1-pA.Z0))
 }
 set.seed(2023)
 R <- 1000
@@ -1775,21 +1722,13 @@ f <- function(x){
 }
 C <- uniroot(f, interval = c(-3, 3), extendInt = "yes")
 C <- C$root
-#Uncomment following depending on estimand of interest
+
 #CATE(A = 0, Z = 0)
-#BP.bounds.CATE0.Z0 <- c((gamma.l(pi.hat)- EY.Z0)/(1-pA.Z0) - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.Z0)/(1-pA.Z0) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
-#CATE(A = 1, Z = 0)
-BP.bounds.CATE1.Z0 <- c( (-gamma.u(pi.hat) + EY.Z0)/pA.Z0 - C*sd.u1.hat[arg_gamma.u(pi.hat)], (-gamma.l(pi.hat)+ EY.Z0)/pA.Z0 + C*sd.l1.hat[arg_gamma.l(pi.hat)])
+BP.bounds.CATE0.Z0 <- c((gamma.l(pi.hat)- EY.Z0)/(1-pA.Z0) - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.Z0)/(1-pA.Z0) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
 
+gam.lCATE0 <- gamma.l(pi.hat)
 
-
-
-
-gam.lCATE1 <- gamma.l(pi.hat)
-#gam.lCATE0 <- gamma.l(pi.hat)
-
-gam.uCATE1 <- gamma.u(pi.hat)
-#gam.uCATE0 <- gamma.u(pi.hat)
+gam.uCATE0 <- gamma.u(pi.hat)
 
 
 
