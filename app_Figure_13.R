@@ -908,6 +908,11 @@ C <- C$root
 #CATE(A = 1, Z = 1)
 BP.bounds.CATE1.Z1 <- c( (-gamma.u(pi.hat) + EY.Z1)/pA.Z1 - C*sd.u1.hat[arg_gamma.u(pi.hat)], (-gamma.l(pi.hat)+ EY.Z1)/pA.Z1 + C*sd.l1.hat[arg_gamma.l(pi.hat)])
 
+gam.lCATE1 <- gamma.l(pi.hat)
+
+gam.uCATE1 <- gamma.u(pi.hat)
+
+
 #Balke-Pearl bounds((L,A)-optimal)
 #CATE(A = 0)
 p.l1 <- function(pi) { pi[4] }
@@ -1719,6 +1724,9 @@ C <- C$root
 #CATE(A = 0, Z = 1)
 BP.bounds.CATE0.Z1 <- c((gamma.l(pi.hat)- EY.Z1)/(1-pA.Z1) - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.Z1)/(1-pA.Z1) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
 
+gam.lCATE0 <- gamma.l(pi.hat)
+
+gam.uCATE0 <- gamma.u(pi.hat)
 
 
 
