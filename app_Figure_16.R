@@ -2,20 +2,7 @@ library(rpart)
 library(randomForest)
 library(nnet)
 
-# ICU example (remove '#'s if you want to do the analysis with the ICU dataset)
-library(haven)
-data <- read_dta("~/Documents/Github/Bounds-and-Simulation/icu_pseudo_data.dta")
-set.seed(1)
-n <- nrow(data)
-Y <- 1-data$dead7
-#Y <- 1-data$dead28
-#Y <- 1-data$dead90
-Z <- data$open_bin
-A <- data$icu_bed
-L <- data[, c("age", "male", "sofa_score")]
-L$sofa_score <- cut(L$sofa_score, breaks=c(-1,1,2,4,6,24))
-dat <- data.frame(Z = Z, A = A, Y = Y)
-dat <- cbind(dat,L)
+
 
 # Data analysis
 set.seed(532)
