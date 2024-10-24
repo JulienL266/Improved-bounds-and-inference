@@ -2,7 +2,7 @@ library(rpart)
 library(randomForest)
 library(nnet)
 
-# ICU example (remove '#'s if you want to do the analysis with the ICU dataset)
+#ICU example
 library(haven)
 data <- read_dta("~/Documents/Github/Bounds-and-Simulation/icu_pseudo_data.dta")
 set.seed(1)
