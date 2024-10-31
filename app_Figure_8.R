@@ -2329,8 +2329,22 @@ Bounds.A0 <- c(meanA0 - qnorm(0.975)*sd.A0, meanA0 + qnorm(0.975)*sd.A0)
 Bounds.A1 <- c(meanA1 - qnorm(0.975)*sd.A1, meanA1 + qnorm(0.975)*sd.A1)
 
 
+#Decision criteria for Figure 9
+##Maximax(L-optimal)
+as.numeric(BP.bounds1[2] > BP.bounds0[2])
+##Maximin(L-optimal)
+as.numeric(BP.bounds1[1] > BP.bounds0[1])
+##Maximax(A = 0)
+as.numeric(BP.bounds.a1A0[2] > Bounds.A0[2])
+##Maximin(A = 0)
+as.numeric(BP.bounds.a1A0[1] > Bounds.A0[1])
+##Maximax(A = 1)
+as.numeric(Bounds.A1[2] > BP.bounds.a0A1[2])
+##Maximin(A = 1)
+as.numeric(Bounds.A1[1] > BP.bounds.a0A1[1])
 
-#Combined plots
+
+#Combined plots for Figure 8
 ##Setting line width
 width = 3
 ##Combined plot
