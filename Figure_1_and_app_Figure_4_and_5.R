@@ -97,7 +97,8 @@ print(pA)
 print(pZ)
 print(p_a.z["1.0"])
 print(p_a.z["1.1"])
-print()
+print(p_rd.ry_ex["0.1"] + p_rd.ry_ex["1.1"] + p_rd.ry_ex["2.1"] + p_rd.ry_ex["3.1"]
+      - p_rd.ry_ex["0.2"] - p_rd.ry_ex["1.2"] - p_rd.ry_ex["2.2"] - p_rd.ry_ex["2.3"])
 
 #Numbers in Figure 4 of the Appendix
 print(p_rd.ry_ex)
