@@ -62,8 +62,8 @@ for(pZ in seq(from = 0, to = 1, length.out = n)){
   }
   if(done){break}
 }
-##Plot(superoptimal, CATE)
-width = 4
+
+
 #computing bounds
 p_rd <- c(sum(p_rd.ry_ex[1:4]), sum(p_rd.ry_ex[5:8]), sum(p_rd.ry_ex[9:12]), sum(p_rd.ry_ex[13:16]))
 names(p_rd) <- c("0", "1", "2", "3")
@@ -104,6 +104,7 @@ print(p_rd.ry_ex)
 
 
 ##Plots for Figure 1 in the main text
+width = 4
 par(mar = c(3,4,1,1), cex.axis = 2, cex.lab = 2)
 plot(NULL, ylim = c(-1,1), xlim = c(0.2,0.8), 
      xlab = "", ylab = "", xaxt = 'n')
