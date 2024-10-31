@@ -90,7 +90,10 @@ tabp = as.table(array(
 ))
 bounds <- bpbounds(tabp)
 
-#Computing EY and pA for Figure 5
+#Code for Figure 4 of the Appendix
+print(p_rd.ry_ex)
+
+#Code for Figure 5
 EY <- pZ_ex*sum(p_ya.z[c("10.1", "11.1")]) + (1-pZ_ex)*sum(p_ya.z[c("10.0", "11.0")])
 pA <- pZ*p_a.z["1.1"] + (1-pZ)*p_a.z["1.0"]
 print(pA)
@@ -103,9 +106,6 @@ EY1 <- p_rd.ry_ex["0.1"] + p_rd.ry_ex["1.1"] + p_rd.ry_ex["2.1"] + p_rd.ry_ex["3
 print((EY1 - EY)/(1-pA))
 EY0 <- p_rd.ry_ex["0.2"] + p_rd.ry_ex["1.2"] + p_rd.ry_ex["2.2"] + p_rd.ry_ex["3.2"] + p_rd.ry_ex["0.3"] + p_rd.ry_ex["1.3"] + p_rd.ry_ex["2.3"] + p_rd.ry_ex["3.3"]
 print((EY - EY0)/pA)
-
-#Numbers in Figure 4 of the Appendix
-print(p_rd.ry_ex)
 
 
 ##Plots for Figure 1 in the main text
