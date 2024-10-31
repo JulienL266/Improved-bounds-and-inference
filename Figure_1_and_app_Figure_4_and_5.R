@@ -90,12 +90,18 @@ tabp = as.table(array(
 ))
 bounds <- bpbounds(tabp)
 
-#Computing EY and pA
+#Computing EY and pA for Figure 5
 EY <- pZ_ex*sum(p_ya.z[c("10.1", "11.1")]) + (1-pZ_ex)*sum(p_ya.z[c("10.0", "11.0")])
 pA <- pZ*p_a.z["1.1"] + (1-pZ)*p_a.z["1.0"]
+print(pA)
+print(pZ)
+print(p_a.z["1.0"])
+print(p_a.z["1.1"])
+print()
 
 #Numbers in Figure 4 of the Appendix
 print(p_rd.ry_ex)
+
 
 ##Plots for Figure 1 in the main text
 par(mar = c(3,4,1,1), cex.axis = 2, cex.lab = 2)
