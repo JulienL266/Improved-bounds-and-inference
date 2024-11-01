@@ -881,7 +881,7 @@ BP.bounds.a0A1.Z0 <- c((gamma.l(pi.hat)- EY.A0Z0*(1-pA.Z0))/pA.Z0 - C*sd.l1.hat[
 
 gam.la0A1 <- gamma.l(pi.hat)
 
-gam.ua1A0 <- gamma.u(pi.hat)
+gam.ua0A1 <- gamma.u(pi.hat)
 
 #Balke-Pearl bounds((L,A)-optimal)
 #a = 1, A = 0 intervention
