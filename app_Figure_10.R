@@ -1671,11 +1671,20 @@ gam.uCATE0 <- gamma.u(pi.hat)
 
 
 
+#Decision criteria for Figure 12
+##Minimax(A = 0, Z = 0)
+as.numeric(BP.bounds.CATE0.Z0[1] > 0 || (BP.bounds.CATE0.Z0[2] > 0 && abs(BP.bounds.CATE0.Z0[2]) > abs(BP.bounds.CATE0.Z0[1])))
+#Healthcare(A = 0, Z = 0)
+as.numeric(BP.bounds.CATE0.Z0[1] > 0)
+##Minimax(A = 1, Z = 0)
+as.numeric(BP.bounds.CATE1.Z0[1] > 0 || (BP.bounds.CATE1.Z0[2] > 0 && abs(BP.bounds.CATE1.Z0[2]) > abs(BP.bounds.CATE1.Z0[1])))
+#Healthcare(A = 1, Z = 0)
+as.numeric(BP.bounds.CATE1.Z0[1] > 0)
 
 
 
 
-#Combined CATE plots, Z = 0
+#Combined CATE plots for Figure 10, Z = 0
 ##Setting line width
 width = 3
 ##Combined plot
