@@ -879,6 +879,9 @@ C <- C$root
 #a = 0, A = 1 intervention | Z = 0
 BP.bounds.a0A1.Z0 <- c((gamma.l(pi.hat)- EY.A0Z0*(1-pA.Z0))/pA.Z0 - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.A0Z0*(1-pA.Z0))/pA.Z0 + C*sd.u1.hat[arg_gamma.u(pi.hat)])
 
+gam.la0A1 <- gamma.l(pi.hat)
+
+gam.ua1A0 <- gamma.u(pi.hat)
 
 #Balke-Pearl bounds((L,A)-optimal)
 #a = 1, A = 0 intervention
@@ -1661,6 +1664,10 @@ fct.u4 <- function(data, ind){
   #a = 1, A = 0 intervention | Z = 0
   BP.bounds.a1A0.Z0 <- c((gamma.l(pi.hat)- EY.A1Z0*pA.Z0)/(1-pA.Z0) - C*sd.l1.hat[arg_gamma.l(pi.hat)], (gamma.u(pi.hat) - EY.A1Z0*pA.Z0)/(1-pA.Z0) + C*sd.u1.hat[arg_gamma.u(pi.hat)])
   
+  gam.la1A0 <- gamma.l(pi.hat)
+  
+  gam.ua1A0 <- gamma.u(pi.hat)
+  
 
 #conditional means estimation
 fctA0Z0 <- function(data, ind){
@@ -1735,7 +1742,7 @@ Bounds.A1Z1 <- c(meanA1Z1 - qnorm(0.975)*sd.A1Z1, meanA1Z1 + qnorm(0.975)*sd.A1Z
 
 
 #Decision criteria for Figure 12
-##Maximax(A = 0, Z = 0)
+##Maximax(A = 0, Z = 0 )
 as.numeric(BP.bounds.a1A0.Z0[2] > Bounds.A0Z0[2])
 ##Maximin(A = 0, Z = 0)
 as.numeric(BP.bounds.a1A0.Z0[1] > Bounds.A0Z0[1])
@@ -1743,6 +1750,8 @@ as.numeric(BP.bounds.a1A0.Z0[1] > Bounds.A0Z0[1])
 as.numeric(Bounds.A1Z0[2] > BP.bounds.a0A1.Z0[2])
 ##Maximin(A = 1, Z = 0)
 as.numeric(Bounds.A1Z0[1] > BP.bounds.a0A1.Z0[1])
+
+
 
 
 
