@@ -1744,7 +1744,7 @@ arrows(x0=0.6, y0=max(0,BP.bounds.a0A1.Z1[1]), x1=0.6,
        code=3, angle=90, length=0.05, lwd=width, col = 'red')
 arrows(x0=0.6, y0=(gam.la0A1- EY.A0Z1*(1-pA.Z1))/pA.Z1, x1=0.6, y1=(gam.ua0A1- EY.A0Z1*(1-pA.Z1))/pA.Z1, 
        code=3, angle=90, length=0.025, lwd=width, col = 'blue')
-#a = 1, A = 1, Z = 0
+#a = 1, A = 1, Z = 1
 arrows(x0=0.8, y0=max(0,Bounds.A1Z1[1]), x1=0.8, 
        y1=min(1,Bounds.A1Z1[2]), 
        code=3, angle=90, length=0.05, lwd=width, col = 'red')
