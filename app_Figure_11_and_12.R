@@ -2,7 +2,7 @@ library(gplots)
 library(nnet)
 library(boot)
 ## Loading the data
-data1 <- read.csv("~/Documents/Github/Bounds-and-Simulation/card.csv")
+data1 <- read.csv("card.csv")
 set.seed(1)
 
 
