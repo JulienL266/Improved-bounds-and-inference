@@ -4,7 +4,7 @@ library(nnet)
 
 
 #Card example (remove '#'s if you want to do the analysis with the NLSYM dataset)
-data1 <- read.csv("~/Documents/Github/Bounds-and-Simulation/card.csv")
+data1 <- read.csv("card.csv")
 
 
 # Mean values to replace NAs (following https://arxiv.org/pdf/1611.09925.pdf)
