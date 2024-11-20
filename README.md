@@ -12,6 +12,7 @@
 - In app_Figure_11_and_12.R, you can find the code to reproduce Figure 11 in the online Appendix, and part of the numbers given in Figure 12 in the online Appendix. Outputs for each Figure are marked in the code.
 - In app_Figure_13_and_15.R, you can find the code to reproduce Figure 13 in the online Appendix, and part of the numbers given in Figure 15 in the online Appendix. Outputs for each Figure are marked in the code.
 - In app_Figure_14_and_15.R, you can find the code to reproduce Figure 13 in the online Appendix, and part of the numbers given in Figure 15 in the online Appendix. Outputs for each Figure are marked in the code.
+- In app_Figure_16.R, you can find the code to reproduce Figure 16 in the online Appendix.
 
 ## Data dictionnary
 ### ICU dataset
