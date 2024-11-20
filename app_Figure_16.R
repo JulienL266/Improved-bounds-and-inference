@@ -4,7 +4,7 @@ library(nnet)
 
 # Influenza example
 library(foreign)
-dat <- read.dta("~/Documents/Github/Bounds-and-Simulation/flu_clean.dta")
+dat <- read.dta("flu_clean.dta")
 dat <- dat[, -c(ncol(dat))] 
 n <- nrow(dat)
 colnames(dat)[c(1,2,3)] <- c("Z", "A", "Y")
