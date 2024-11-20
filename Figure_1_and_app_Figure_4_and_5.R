@@ -93,7 +93,7 @@ bounds <- bpbounds(tabp)
 #Code for Figure 4 of the Appendix
 print(p_rd.ry_ex)
 
-#Code for Figure 5
+#Code for Figure 5 of the Appendix
 EY <- pZ_ex*sum(p_ya.z[c("10.1", "11.1")]) + (1-pZ_ex)*sum(p_ya.z[c("10.0", "11.0")])
 pA <- pZ*p_a.z["1.1"] + (1-pZ)*p_a.z["1.0"]
 print(pA)
