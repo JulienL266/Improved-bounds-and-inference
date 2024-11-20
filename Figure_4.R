@@ -4,7 +4,7 @@ library(nnet)
 
 #ICU example
 library(haven)
-data <- read_dta("~/Documents/Github/Bounds-and-Simulation/icu_pseudo_data.dta")
+data <- read_dta("icu_pseudo_data.dta")
 set.seed(1)
 n <- nrow(data)
 Y <- 1-data$dead7
